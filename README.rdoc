@@ -1,0 +1,48 @@
+= migration_tools
+
+This gem adds a few delicious tasks to your migration tool box. 
+
+== Groups
+
+The migration tools allow you to specify a group in your migrations. This is used to allow you to run your migrations in groups, as opposed to all at once. This is useful if you want to run a certain group of migrations before a deploy, another group during deploy and a third group after deploy. We use this technique to be able to QA new production code in an isolated environment that runs against the production database.
+
+You specify which group a migration belongs to inside the migration, like so:
+
+  class CreateHello < ActiveRecord::Migration
+    group :pre
+  
+    def self.up
+      ...
+    end
+  end
+
+The names of the possible groups are predefined to avoid turning this solution in to a generic hammer from hell. You can use the following groups: pre, during, post, change. We define this as:
+
+*pre* this is for migrations that are safe to run before a deploy of new code, e.g. adding columns/tables
+*during* this is for migrations that require the data structure and code to deploy "synchronously"
+*post* this is for migrations that should run after the new code has been pushed and is running
+*change* this is a special group that you run whenever you want to change DB data which you'd otherwise do in script/console
+
+== Commands
+
+  $ rake db:migrate:list            - shows pending migrations
+  $ rake db:migrate:group:list      - shows pending migrations by group
+  $ GROUP=pre rake:db:migrate:group - runs the migrations in the "pre" group
+
+Note that rake db:migrate is entirely unaffected by this
+
+== Contributing to migration_tools
+ 
+* Check out the latest master to make sure the feature hasn't been implemented or the bug hasn't been fixed yet
+* Check out the issue tracker to make sure someone already hasn't requested it and/or contributed it
+* Fork the project
+* Start a feature/bugfix branch
+* Commit and push until you are happy with your contribution
+* Make sure to add tests for it. This is important so I don't break it in a future version unintentionally.
+* Please try not to mess with the Rakefile, version, or history. If you want to have your own version, or is otherwise necessary, that is fine, but please isolate to its own commit so I can cherry-pick around it.
+
+== Copyright
+
+Copyright (c) 2010 Morten Primdahl. See LICENSE.txt for
+further details.
+
