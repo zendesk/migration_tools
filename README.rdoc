@@ -19,9 +19,13 @@ You specify which group a migration belongs to inside the migration, like so:
 The names of the possible groups are predefined to avoid turning this solution in to a generic hammer from hell. You can use the following groups: pre, during, post, change. We define this as:
 
 *pre* this is for migrations that are safe to run before a deploy of new code, e.g. adding columns/tables
+
 *during* this is for migrations that require the data structure and code to deploy "synchronously"
+
 *post* this is for migrations that should run after the new code has been pushed and is running
+
 *change* this is a special group that you run whenever you want to change DB data which you'd otherwise do in script/console
+
 
 == Commands
 
