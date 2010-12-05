@@ -9,20 +9,20 @@ The migration tools allow you to specify a group in your migrations. This is use
 You specify which group a migration belongs to inside the migration, like so:
 
   class CreateHello < ActiveRecord::Migration
-    group :pre
+    group :before
   
     def self.up
       ...
     end
   end
 
-The names of the possible groups are predefined to avoid turning this solution in to a generic hammer from hell. You can use the following groups: pre, during, post, change. We define this as:
+The names of the possible groups are beforedefined to avoid turning this solution in to a generic hammer from hell. You can use the following groups: before, during, after, change. We define this as:
 
-*pre* this is for migrations that are safe to run before a deploy of new code, e.g. adding columns/tables
+*before* this is for migrations that are safe to run before a deploy of new code, e.g. adding columns/tables
 
 *during* this is for migrations that require the data structure and code to deploy "synchronously"
 
-*post* this is for migrations that should run after the new code has been pushed and is running
+*after* this is for migrations that should run after the new code has been pushed and is running
 
 *change* this is a special group that you run whenever you want to change DB data which you'd otherwise do in script/console
 
@@ -31,7 +31,7 @@ The names of the possible groups are predefined to avoid turning this solution i
 
   $ rake db:migrate:list            - shows pending migrations
   $ rake db:migrate:group:list      - shows pending migrations by group
-  $ GROUP=pre rake:db:migrate:group - runs the migrations in the "pre" group
+  $ GROUP=before rake:db:migrate:group - runs the migrations in the "before" group
 
 Note that rake db:migrate is entirely unaffected by this
 

@@ -12,3 +12,4 @@ module MigrationTools
 end
 
 ActiveRecord::Migration.class_eval { extend MigrationTools::MigrationExtension }
+ActiveRecord::MigrationProxy.delegate :migration_group, :to => :migration

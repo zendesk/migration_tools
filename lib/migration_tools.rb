@@ -5,5 +5,5 @@ require 'migration_tools/migration_extension'
 require 'migration_tools/tasks'
 
 module MigrationTools
-  MIGRATION_GROUPS = [ 'pre', 'during', 'post', 'change' ]
+  MIGRATION_GROUPS = [ 'before', 'during', 'after', 'change' ]
 end
