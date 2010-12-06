@@ -26,6 +26,7 @@ Gem::Specification.new do |s|
     "lib/migration_tools.rb",
     "lib/migration_tools/migration_extension.rb",
     "lib/migration_tools/tasks.rb",
+    "migration_tools.gemspec",
     "test/helper.rb",
     "test/test_migration_tools.rb"
   ]
