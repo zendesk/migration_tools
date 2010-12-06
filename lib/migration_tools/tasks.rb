@@ -6,6 +6,7 @@ module MigrationTools
     def initialize
       define_migrate_list
       define_migrate_group
+      define_convenience_tasks
     end
 
     def group
@@ -54,6 +55,23 @@ module MigrationTools
             else
               pending_migrations.each do |migration|
                 migration.migrate
+              end
+            end
+          end
+        end
+      end
+    end
+
+    def define_convenience_tasks
+      namespace :db do
+        namespace :migrate do
+          [ :list, :group ].each do |ns|
+            namespace ns do
+              [ :before, :during, :after, :change ].each do |migration_group|
+                task migration_group do
+                  ENV['GROUP'] = migration_group.to_s
+                  Rake::Task["db:migrate:#{ns}"].invoke
+                end
               end
             end
           end

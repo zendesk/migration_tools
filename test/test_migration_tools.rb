@@ -65,6 +65,10 @@ class TestMigrationTools < Test::Unit::TestCase
   def test_task_presence
     assert Rake::Task["db:migrate:list"]
     assert Rake::Task["db:migrate:group"]
+    assert Rake::Task["db:migrate:group:before"]
+    assert Rake::Task["db:migrate:group:during"]
+    assert Rake::Task["db:migrate:group:after"]
+    assert Rake::Task["db:migrate:group:change"]
   end
 
   def test_migrate_list_without_pending_without_group
@@ -131,4 +135,12 @@ class TestMigrationTools < Test::Unit::TestCase
     end
   end
 
+  def test_convenience_list_method
+    ActiveRecord::Migrator.expects(:new).returns(stub(:pending_migrations => proxies))
+    MigrationTools::Tasks.any_instance.expects(:notify).with("You have 2 pending migrations", "before").once
+    MigrationTools::Tasks.any_instance.expects(:notify).with("     0 before Alpha").once
+    MigrationTools::Tasks.any_instance.expects(:notify).with("     1 before Beta").once
+
+    Rake::Task["db:migrate:list:before"].invoke
+  end
 end
