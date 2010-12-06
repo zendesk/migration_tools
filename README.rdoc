@@ -4,7 +4,9 @@ This gem adds a few delicious tasks to your migration tool box.
 
 == Groups
 
-The migration tools allow you to specify a group in your migrations. This is used to allow you to run your migrations in groups, as opposed to all at once. This is useful if you want to run a certain group of migrations before a deploy, another group during deploy and a third group after deploy. We use this technique to be able to QA new production code in an isolated environment that runs against the production database.
+The migration tools allow you to specify a group in your migrations. This is used to allow you to run your migrations in groups, as opposed to all at once. This is useful if you want to run a certain group of migrations before a deploy, another group during deploy and a third group after deploy. 
+
+We use this technique to be able to QA new production code in an isolated environment that runs against the production database. It also reduces the number of moving parts come deploy time, which is helpful when you're doing zero downtime deploys.
 
 You specify which group a migration belongs to inside the migration, like so:
 
@@ -16,7 +18,7 @@ You specify which group a migration belongs to inside the migration, like so:
     end
   end
 
-The names of the possible groups are beforedefined to avoid turning this solution in to a generic hammer from hell. You can use the following groups: before, during, after, change. We define this as:
+The names of the possible groups are predefined to avoid turning this solution in to a generic hammer from hell. You can use the following groups: before, during, after, change. We define these as:
 
 *before* this is for migrations that are safe to run before a deploy of new code, e.g. adding columns/tables
 
@@ -29,9 +31,8 @@ The names of the possible groups are beforedefined to avoid turning this solutio
 
 == Commands
 
-  $ rake db:migrate:list            - shows pending migrations
-  $ rake db:migrate:group:list      - shows pending migrations by group
-  $ GROUP=before rake:db:migrate:group - runs the migrations in the "before" group
+  $ rake db:migrate:list - shows pending migrations by group
+  $ GROUP=before rake db:migrate:group - runs the migrations in the "before" group
 
 Note that rake db:migrate is entirely unaffected by this
 
