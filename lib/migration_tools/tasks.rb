@@ -67,7 +67,8 @@ module MigrationTools
         namespace :migrate do
           [ :list, :group ].each do |ns|
             namespace ns do
-              [ :before, :during, :after, :change ].each do |migration_group|
+              MigrationTools::MIGRATION_GROUPS.each do |migration_group|
+                desc "#{ns == :list ? 'Lists' : 'Executes' } the migrations for group #{migration_group}"
                 task migration_group do
                   ENV['GROUP'] = migration_group.to_s
                   Rake::Task["db:migrate:#{ns}"].invoke
