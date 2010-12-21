@@ -117,9 +117,11 @@ class TestMigrationTools < Test::Unit::TestCase
 
   def test_migrate_group_with_pending
     ENV['GROUP'] = 'before'
-    ActiveRecord::Migrator.expects(:new).returns(stub(:pending_migrations => proxies))
+    migrator = stub(:pending_migrations => proxies)
+    ActiveRecord::Migrator.expects(:new).returns(migrator)
     proxies.select { |p| p.migration_group == 'before' }.each do |p|
       p.expects(:migrate).with(:up).once
+      migrator.expects(:record_version_state_after_migrating).with(p.version).once
     end
 
     Rake::Task["db:migrate:group"].invoke

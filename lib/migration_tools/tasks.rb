@@ -17,9 +17,13 @@ module MigrationTools
       @group
     end
 
+    def migrator
+      @migrator ||= ActiveRecord::Migrator.new(:up, 'db/migrate')
+    end
+
     def pending_migrations
       return @pending_migrations if @pending_migrations
-      @pending_migrations = ActiveRecord::Migrator.new(:up, 'db/migrate').pending_migrations
+      @pending_migrations = migrator.pending_migrations
       @pending_migrations = @pending_migrations.select { |proxy| group.empty? || proxy.migration_group == group }
 
       @pending_migrations
@@ -55,6 +59,7 @@ module MigrationTools
             else
               pending_migrations.each do |migration|
                 migration.migrate(:up)
+                migrator.send(:record_version_state_after_migrating, migration.version)
               end
             end
           end
