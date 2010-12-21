@@ -11,7 +11,7 @@ module MigrationTools
 
     def group
       return @group if @group
-  
+
       @group = ENV['GROUP'].to_s
       raise "Invalid group \"#{@group}\"" if !@group.empty? && !MIGRATION_GROUPS.member?(@group)
       @group
@@ -47,14 +47,14 @@ module MigrationTools
       namespace :db do
         namespace :migrate do
           desc 'Runs pending migrations for a given group'
-          task :group do
+          task :group => :environment do
             if group.empty?
               notify "Please specify a migration group"
             elsif pending_migrations.empty?
               notify "Your database schema is up to date"
             else
               pending_migrations.each do |migration|
-                migration.migrate
+                migration.migrate(:up)
               end
             end
           end
@@ -69,7 +69,7 @@ module MigrationTools
             namespace ns do
               MigrationTools::MIGRATION_GROUPS.each do |migration_group|
                 desc "#{ns == :list ? 'Lists' : 'Executes' } the migrations for group #{migration_group}"
-                task migration_group do
+                task migration_group => :environment do
                   ENV['GROUP'] = migration_group.to_s
                   Rake::Task["db:migrate:#{ns}"].invoke
                 end

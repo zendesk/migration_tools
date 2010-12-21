@@ -119,12 +119,12 @@ class TestMigrationTools < Test::Unit::TestCase
     ENV['GROUP'] = 'before'
     ActiveRecord::Migrator.expects(:new).returns(stub(:pending_migrations => proxies))
     proxies.select { |p| p.migration_group == 'before' }.each do |p|
-      p.expects(:migrate).once
+      p.expects(:migrate).with(:up).once
     end
 
     Rake::Task["db:migrate:group"].invoke
   end
-  
+
   def test_migrate_with_invalid_group
     ENV['GROUP'] = 'drunk'
     begin
