@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{migration_tools}
-  s.version = "0.1.1"
+  s.version = "0.1.2"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Morten Primdahl"]
-  s.date = %q{2010-12-06}
+  s.date = %q{2010-12-21}
   s.description = %q{Suite of task extensions for Rails 2.3 that makes managing migrations easier of more nimble}
   s.email = %q{morten@zendesk.com}
   s.extra_rdoc_files = [
