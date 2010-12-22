@@ -29,7 +29,8 @@ class TestMigrationTools < Test::Unit::TestCase
   def setup
     ENV['GROUP'] = nil
     Rake::Task.clear
-    Rake::Task.define_task(:environment)
+    Rake::Task.define_task("environment")
+    Rake::Task.define_task("db:schema:dump")
     @task = MigrationTools::Tasks.new
   end
 

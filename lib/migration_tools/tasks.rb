@@ -61,6 +61,9 @@ module MigrationTools
                 migration.migrate(:up)
                 migrator.send(:record_version_state_after_migrating, migration.version)
               end
+
+              Rake::Task["db:schema:dump"].invoke if ActiveRecord::Base.schema_format == :ruby
+              Rake::Task["db:structure:dump"].invoke if ActiveRecord::Base.schema_format == :sql
             end
           end
         end
