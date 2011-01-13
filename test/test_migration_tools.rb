@@ -63,6 +63,22 @@ class TestMigrationTools < Test::Unit::TestCase
     assert_equal "change", proxy.migration_group
   end
 
+  def test_forcing
+    assert !MigrationTools.forced?
+    Kappa.migrate("up")
+
+    MigrationTools.forced!
+    assert MigrationTools.forced?
+
+    Alpha.migrate("up")
+    begin
+      Kappa.migrate("up")
+      fail "You should not be able to run migrations without groups in forced mode"
+    rescue RuntimeError => e
+      assert e.message =~ /Cowardly refusing/
+    end
+  end
+
   def test_task_presence
     assert Rake::Task["db:migrate:list"]
     assert Rake::Task["db:migrate:group"]
