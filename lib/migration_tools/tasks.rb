@@ -58,8 +58,7 @@ module MigrationTools
               notify "Your database schema is up to date"
             else
               pending_migrations.each do |migration|
-                migration.migrate(:up)
-                migrator.send(:record_version_state_after_migrating, migration.version)
+                ActiveRecord::Migrator.run(:up, 'db/migrate', migration.version)
               end
 
               Rake::Task["db:schema:dump"].invoke if ActiveRecord::Base.schema_format == :ruby
