@@ -5,6 +5,8 @@ require 'migration_tools/migration_extension'
 require 'migration_tools/tasks'
 
 module MigrationTools
+  DEFAULT_MIGRATION_GROUPS = [ 'before', 'during', 'after', 'change' ]
+
   def self.forced?
     !!@forced
   end
@@ -13,5 +15,7 @@ module MigrationTools
     @forced = true
   end
 
-  MIGRATION_GROUPS = [ 'before', 'during', 'after', 'change' ]
+  def self.migration_groups
+    @groups ||= DEFAULT_MIGRATION_GROUPS.clone
+  end
 end

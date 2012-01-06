@@ -4,8 +4,8 @@ module MigrationTools
     attr_accessor :migration_group
 
     def group(arg = nil)
-      unless MigrationTools::MIGRATION_GROUPS.member?(arg.to_s)
-        raise "Invalid group \"#{arg.to_s}\" - valid groups are #{MigrationTools::MIGRATION_GROUPS.inspect}"
+      unless MigrationTools.migration_groups.member?(arg.to_s)
+        raise "Invalid group \"#{arg.to_s}\" - valid groups are #{MigrationTools.migration_groups.inspect}"
       end
 
       self.migration_group = arg.to_s

@@ -13,7 +13,7 @@ module MigrationTools
       return @group if @group
 
       @group = ENV['GROUP'].to_s
-      raise "Invalid group \"#{@group}\"" if !@group.empty? && !MIGRATION_GROUPS.member?(@group)
+      raise "Invalid group \"#{@group}\"" if !@group.empty? && !MigrationTools.migration_groups.member?(@group)
       @group
     end
 
@@ -74,7 +74,7 @@ module MigrationTools
         namespace :migrate do
           [ :list, :group ].each do |ns|
             namespace ns do
-              MigrationTools::MIGRATION_GROUPS.each do |migration_group|
+              MigrationTools.migration_groups.each do |migration_group|
                 desc "#{ns == :list ? 'Lists' : 'Executes' } the migrations for group #{migration_group}"
                 task migration_group => :environment do
                   ENV['GROUP'] = migration_group.to_s
