@@ -1,6 +1,6 @@
 = migration_tools
 
-This gem adds a few delicious tasks to your migration tool box. 
+Rake tasks for grouping migrations.
 
 == Groups
 
@@ -61,6 +61,6 @@ Note that rake db:migrate is entirely unaffected by this.
 
 == Copyright
 
-Copyright (c) 2010 Morten Primdahl. See LICENSE.txt for
+Copyright (c) 2010 Morten Primdahl. See MIT-LICENSE.txt for
 further details.
 
