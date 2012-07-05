@@ -7,6 +7,6 @@ gem "mocha", "~>0.11.0"
 gem "test-unit", ">=2.5.1"
 gem "appraisal"
 gem "sqlite3"
-gem "activerecord", "~> 3.0.15", :require=>"active_record"
+gem "activerecord", "~> 3.2.6", :require=>"active_record"
 
 gemspec :path=>"../"
