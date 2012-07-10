@@ -1,10 +1,13 @@
 require 'bundler/gem_tasks'
+require 'appraisal'
 
 require 'rake/testtask'
 Rake::TestTask.new(:test) do |test|
-  test.libs << 'lib' << 'test'
+  test.libs << 'lib'
   test.pattern = 'test/**/test_*.rb'
   test.verbose = true
 end
 
-task :default => :test
+task :default do
+  sh "bundle exec rake appraisal:install && bundle exec rake appraisal test"
+end

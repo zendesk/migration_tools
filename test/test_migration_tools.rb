@@ -1,4 +1,4 @@
-require 'helper'
+require File.expand_path '../helper', __FILE__
 
 class Alpha < ActiveRecord::Migration
   group :before
@@ -58,7 +58,13 @@ class TestMigrationTools < Test::Unit::TestCase
   end
 
   def test_migration_proxy_delegation
-    proxy = ActiveRecord::MigrationProxy.new
+    args = if ActiveRecord::VERSION::MAJOR == 3 && ActiveRecord::VERSION::MINOR > 0
+      [:name, :version, :filename, :scope]
+    else
+      []
+    end
+
+    proxy = ActiveRecord::MigrationProxy.new(*args)
     proxy.expects(:migration).returns(Delta)
     assert_equal "change", proxy.migration_group
   end
