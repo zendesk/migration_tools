@@ -46,7 +46,7 @@ The list commands
 The group commands
 
 ```
-  $ GROUP#before rake db:migrate:group - runs the migrations in the specified group
+  $ GROUP=before rake db:migrate:group - runs the migrations in the specified group
   $ rake db:migrate:group:before - runs pending migrations for the before group
   $ rake db:migrate:group:during - runs pending migrations for the during group
   $ rake db:migrate:group:after  - runs pending migrations for the after group
