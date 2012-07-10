@@ -1,4 +1,4 @@
-Gem::Specification.new "migration_tools", "0.1.7" do |s|
+Gem::Specification.new "migration_tools", "0.2.0" do |s|
   s.description = "Rake tasks for Rails that add groups to migrations"
   s.homepage = "http://github.com/morten/migration_tools"
   s.license = "MIT"
