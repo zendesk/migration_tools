@@ -1,5 +1,5 @@
 PATH
-  remote: .
+  remote: /Users/mgrosser/code/tools/migration_tools
   specs:
     migration_tools (0.1.7)
       activerecord
@@ -37,6 +37,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  activerecord (~> 3.2.6)
   appraisal
   migration_tools!
   mocha (~> 0.11.0)
