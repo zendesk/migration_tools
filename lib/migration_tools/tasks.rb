@@ -17,6 +17,12 @@ module MigrationTools
       @group
     end
 
+    def group=(group)
+      @group = nil
+      @pending_migrations = nil
+      ENV['GROUP'] = group
+    end
+
     def migrator
       @migrator ||= ActiveRecord::Migrator.new(:up, 'db/migrate')
     end
@@ -77,9 +83,24 @@ module MigrationTools
               MigrationTools::MIGRATION_GROUPS.each do |migration_group|
                 desc "#{ns == :list ? 'Lists' : 'Executes' } the migrations for group #{migration_group}"
                 task migration_group => :environment do
-                  ENV['GROUP'] = migration_group.to_s
+                  self.group = migration_group.to_s
                   Rake::Task["db:migrate:#{ns}"].invoke
+                  Rake::Task["db:migrate:#{ns}"].reenable
                 end
+              end
+            end
+          end
+        end
+
+        namespace :abort_if_pending_migrations do
+          MigrationTools::MIGRATION_GROUPS.each do |migration_group|
+            desc "Raises an error if there are pending #{migration_group} migrations"
+            task migration_group do
+              self.group = migration_group.to_s
+              Rake::Task["db:migrate:list"].invoke
+              Rake::Task["db:migrate:list"].reenable
+              if pending_migrations.any?
+                abort "Run \"rake db:migrate\" to update your database then try again."
               end
             end
           end
