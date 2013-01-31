@@ -85,6 +85,7 @@ module MigrationTools
                 task migration_group => :environment do
                   self.group = migration_group.to_s
                   Rake::Task["db:migrate:#{ns}"].invoke
+                  Rake::Task["db:migrate:#{ns}"].reenable
                 end
               end
             end
@@ -97,6 +98,7 @@ module MigrationTools
             task migration_group do
               self.group = migration_group.to_s
               Rake::Task["db:migrate:list"].invoke
+              Rake::Task["db:migrate:list"].reenable
               if pending_migrations.any?
                 abort "Run \"rake db:migrate\" to update your database then try again."
               end
