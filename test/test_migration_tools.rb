@@ -32,6 +32,14 @@ class TestMigrationTools < Test::Unit::TestCase
     Rake::Task.define_task("environment")
     Rake::Task.define_task("db:schema:dump")
     @task = MigrationTools::Tasks.new
+
+    def @task.abort(msg = nil)
+      @aborted = true
+    end
+
+    def @task.aborted?
+      @aborted || false
+    end
   end
 
   def migrations
@@ -128,6 +136,20 @@ class TestMigrationTools < Test::Unit::TestCase
     MigrationTools::Tasks.any_instance.expects(:notify).with("     1 before Beta").once
 
     Rake::Task["db:migrate:list"].invoke
+  end
+
+  def test_abort_if_pending_migrations_with_group_without_migrations
+    @task.stubs(:notify)
+    ActiveRecord::Migrator.expects(:new).returns(stub(:pending_migrations => proxies))
+    Rake::Task["db:abort_if_pending_migrations:after"].invoke
+    assert !@task.aborted?, "aborted where it shouldn't"
+  end
+
+  def test_abort_if_pending_migrations_with_group_with_migrations
+    @task.stubs(:notify)
+    ActiveRecord::Migrator.expects(:new).returns(stub(:pending_migrations => proxies))
+    Rake::Task["db:abort_if_pending_migrations:before"].invoke
+    assert @task.aborted?, "did not abort"
   end
 
   def test_migrate_group_with_group_without_pending
