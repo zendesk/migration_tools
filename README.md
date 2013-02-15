@@ -54,3 +54,6 @@ The group commands
 ```
 Note that rake db:migrate is entirely unaffected by this.
 
+## License
+
+Released under the Apache License Version 2.0 http://www.apache.org/licenses/LICENSE-2.0.html

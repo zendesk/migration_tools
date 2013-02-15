@@ -1,7 +1,7 @@
 PATH
   remote: /Users/primdahl/Git/migration_tools
   specs:
-    migration_tools (0.2.1)
+    migration_tools (1.0.0)
       activerecord
 
 GEM
