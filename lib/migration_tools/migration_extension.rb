@@ -13,7 +13,7 @@ module MigrationTools
 
     def migrate_with_forced_groups(direction)
       if MigrationTools.forced? && migration_group.blank?
-        raise "Cowardly refusing to run migration without a group. Read https://github.com/morten/migration_tools/blob/master/README.rdoc"
+        raise "Cowardly refusing to run migration without a group. Read https://github.com/zendesk/migration_tools/blob/master/README.md"
       end
       migrate_without_forced_groups(direction)
     end
