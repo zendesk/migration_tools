@@ -9,6 +9,7 @@ gem "minitest-rg"
 gem "appraisal"
 gem "sqlite3"
 gem "iconv", :platform=>:ruby_20
+gem "wwtd"
 gem "activerecord", "~> 3.0.15", :require=>"active_record"
 
 gemspec :path=>"../"

@@ -8,3 +8,4 @@ gem "minitest-rg"
 gem "appraisal"
 gem "sqlite3"
 gem "iconv", :platform => :ruby_20
+gem "wwtd"
