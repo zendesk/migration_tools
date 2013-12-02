@@ -46,8 +46,27 @@ class TestMigrationTools < Test::Unit::TestCase
     [ Alpha, Beta, Delta, Kappa ]
   end
 
+  def old_migrator?
+    ActiveRecord::VERSION::MAJOR == 2 || (ActiveRecord::VERSION::MAJOR == 3 && ActiveRecord::VERSION::MINOR == 0)
+  end
+
   def proxies
-    @proxies ||= migrations.map { |m| stub(:migration => m, :version => migrations.index(m), :name => m.name, :migration_group => m.migration_group) }
+    @proxies ||= migrations.map { |m| migration_proxy(m) }
+  end
+
+  def migration_proxy(m)
+    name = m.name
+    version = migrations.index(m)
+
+    if old_migrator?
+      proxy = ActiveRecord::MigrationProxy.new
+      proxy.name = name
+      proxy.version = version
+    else
+      proxy = ActiveRecord::MigrationProxy.new(name, version, nil, nil)
+    end
+    proxy.instance_variable_set(:@migration, (old_migrator? ? m : m.new))
+    proxy
   end
 
   def test_grouping

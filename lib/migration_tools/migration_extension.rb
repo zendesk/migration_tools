@@ -25,5 +25,9 @@ ActiveRecord::Migration.class_eval do
   class << self
     alias_method_chain :migrate, :forced_groups
   end
+
+  def migration_group
+    self.class.migration_group
+  end
 end
 ActiveRecord::MigrationProxy.delegate :migration_group, :to => :migration
