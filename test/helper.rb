@@ -1,5 +1,6 @@
-require 'test/unit'
-require 'mocha'
+require 'minitest/autorun'
+require 'minitest/spec'
+require 'mocha/setup'
 require 'active_support/all'
 
 $LOAD_PATH.unshift File.expand_path("../../lib", __FILE__)

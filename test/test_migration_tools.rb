@@ -24,9 +24,9 @@ class Kappa < ActiveRecord::Migration
   end
 end
 
-class TestMigrationTools < Test::Unit::TestCase
+describe MigrationTools do
 
-  def setup
+  before do
     ENV['GROUP'] = nil
     Rake::Task.clear
     Rake::Task.define_task("environment")
@@ -69,13 +69,13 @@ class TestMigrationTools < Test::Unit::TestCase
     proxy
   end
 
-  def test_grouping
+  it "grouping" do
     assert_equal [ Alpha, Beta ], migrations.select { |m| m.migration_group == 'before' }
     assert_equal [ Delta ], migrations.select { |m| m.migration_group == 'change' }
     assert_equal [ Kappa ], migrations.select { |m| m.migration_group.nil? }
   end
 
-  def test_runtime_checking
+  it "runtime_checking" do
     begin
       eval("class Kappa < ActiveRecord::Migration; group 'drunk'; end")
       fail "You should not be able to specify custom groups"
@@ -84,7 +84,7 @@ class TestMigrationTools < Test::Unit::TestCase
     end
   end
 
-  def test_migration_proxy_delegation
+  it "migration_proxy_delegation" do
     args = if ActiveRecord::VERSION::MAJOR == 3 && ActiveRecord::VERSION::MINOR > 0
       [:name, :version, :filename, :scope]
     else
@@ -96,7 +96,7 @@ class TestMigrationTools < Test::Unit::TestCase
     assert_equal "change", proxy.migration_group
   end
 
-  def test_forcing
+  it "forcing" do
     assert !MigrationTools.forced?
     Kappa.migrate("up")
 
@@ -112,7 +112,7 @@ class TestMigrationTools < Test::Unit::TestCase
     end
   end
 
-  def test_task_presence
+  it "task_presence" do
     assert Rake::Task["db:migrate:list"]
     assert Rake::Task["db:migrate:group"]
     assert Rake::Task["db:migrate:group:before"]
@@ -121,14 +121,14 @@ class TestMigrationTools < Test::Unit::TestCase
     assert Rake::Task["db:migrate:group:change"]
   end
 
-  def test_migrate_list_without_pending_without_group
+  it "migrate_list_without_pending_without_group" do
     ActiveRecord::Migrator.expects(:new).returns(stub(:pending_migrations => []))
     MigrationTools::Tasks.any_instance.expects(:notify).with("Your database schema is up to date", "").once
 
     Rake::Task["db:migrate:list"].invoke
   end
 
-  def test_migrate_list_without_pending_with_group
+  it "migrate_list_without_pending_with_group" do
     ENV['GROUP'] = 'before'
     ActiveRecord::Migrator.expects(:new).returns(stub(:pending_migrations => []))
     MigrationTools::Tasks.any_instance.expects(:notify).with("Your database schema is up to date", "before").once
@@ -136,7 +136,7 @@ class TestMigrationTools < Test::Unit::TestCase
     Rake::Task["db:migrate:list"].invoke
   end
 
-  def test_migrate_list_with_pending_without_group
+  it "migrate_list_with_pending_without_group" do
     ActiveRecord::Migrator.expects(:new).returns(stub(:pending_migrations => proxies))
     MigrationTools::Tasks.any_instance.expects(:notify).with("You have #{proxies.size} pending migrations", "").once
     MigrationTools::Tasks.any_instance.expects(:notify).with("     0 before Alpha").once
@@ -147,7 +147,7 @@ class TestMigrationTools < Test::Unit::TestCase
     Rake::Task["db:migrate:list"].invoke
   end
 
-  def test_migrate_list_with_pending_with_group
+  it "migrate_list_with_pending_with_group" do
     ENV['GROUP'] = 'before'
     ActiveRecord::Migrator.expects(:new).returns(stub(:pending_migrations => proxies))
     MigrationTools::Tasks.any_instance.expects(:notify).with("You have 2 pending migrations", "before").once
@@ -157,21 +157,21 @@ class TestMigrationTools < Test::Unit::TestCase
     Rake::Task["db:migrate:list"].invoke
   end
 
-  def test_abort_if_pending_migrations_with_group_without_migrations
+  it "abort_if_pending_migrations_with_group_without_migrations" do
     @task.stubs(:notify)
     ActiveRecord::Migrator.expects(:new).returns(stub(:pending_migrations => proxies))
     Rake::Task["db:abort_if_pending_migrations:after"].invoke
     assert !@task.aborted?, "aborted where it shouldn't"
   end
 
-  def test_abort_if_pending_migrations_with_group_with_migrations
+  it "abort_if_pending_migrations_with_group_with_migrations" do
     @task.stubs(:notify)
     ActiveRecord::Migrator.expects(:new).returns(stub(:pending_migrations => proxies))
     Rake::Task["db:abort_if_pending_migrations:before"].invoke
     assert @task.aborted?, "did not abort"
   end
 
-  def test_migrate_group_with_group_without_pending
+  it "migrate_group_with_group_without_pending" do
     ENV['GROUP'] = 'before'
     ActiveRecord::Migrator.expects(:new).returns(stub(:pending_migrations => []))
     MigrationTools::Tasks.any_instance.expects(:notify).with("Your database schema is up to date").once
@@ -179,7 +179,7 @@ class TestMigrationTools < Test::Unit::TestCase
     Rake::Task["db:migrate:group"].invoke
   end
 
-  def test_migrate_group_with_pending
+  it "migrate_group_with_pending" do
     ENV['GROUP'] = 'before'
     migrator = stub(:pending_migrations => proxies)
     ActiveRecord::Migrator.expects(:new).returns(migrator)
@@ -191,7 +191,7 @@ class TestMigrationTools < Test::Unit::TestCase
     Rake::Task["db:migrate:group"].invoke
   end
 
-  def test_migrate_with_invalid_group
+  it "migrate_with_invalid_group" do
     ENV['GROUP'] = 'drunk'
     begin
       Rake::Task["db:migrate:group"].invoke
@@ -201,7 +201,7 @@ class TestMigrationTools < Test::Unit::TestCase
     end
   end
 
-  def test_convenience_list_method
+  it "convenience_list_method" do
     ActiveRecord::Migrator.expects(:new).returns(stub(:pending_migrations => proxies))
     MigrationTools::Tasks.any_instance.expects(:notify).with("You have 2 pending migrations", "before").once
     MigrationTools::Tasks.any_instance.expects(:notify).with("     0 before Alpha").once
