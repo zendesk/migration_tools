@@ -27,6 +27,8 @@ GEM
     iconv (1.0.3)
     metaclass (0.0.1)
     minitest (5.0.8)
+    minitest-rg (5.0.0)
+      minitest (~> 5.0)
     mocha (0.14.0)
       metaclass (~> 0.0.1)
     multi_json (1.8.2)
@@ -43,6 +45,7 @@ DEPENDENCIES
   iconv
   migration_tools!
   minitest
+  minitest-rg
   mocha
   rake
   sqlite3
