@@ -1,11 +1,11 @@
 PATH
-  remote: /Users/primdahl/Git/migration_tools
+  remote: ../
   specs:
     migration_tools (1.0.0)
       activerecord
 
 GEM
-  remote: http://rubygems.org/
+  remote: https://rubygems.org/
   specs:
     activerecord (2.3.17)
       activesupport (= 2.3.17)
@@ -13,6 +13,7 @@ GEM
     appraisal (0.5.1)
       bundler
       rake
+    iconv (1.0.3)
     metaclass (0.0.1)
     mocha (0.11.4)
       metaclass (~> 0.0.1)
@@ -26,6 +27,7 @@ PLATFORMS
 DEPENDENCIES
   activerecord (~> 2.3.6)
   appraisal
+  iconv
   migration_tools!
   mocha (~> 0.11.0)
   rake
