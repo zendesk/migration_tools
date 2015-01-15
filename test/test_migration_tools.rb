@@ -185,7 +185,7 @@ describe MigrationTools do
     ActiveRecord::Migrator.expects(:new).returns(migrator)
 
     proxies.select { |p| p.migration_group == 'before' }.each do |p|
-      ActiveRecord::Migrator.expects(:run).with(:up, 'db/migrate', p.version).once
+      ActiveRecord::Migrator.expects(:run).with(:up, @task.migrations_paths, p.version).once
     end
 
     Rake::Task["db:migrate:group"].invoke
