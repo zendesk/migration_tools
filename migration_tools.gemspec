@@ -1,4 +1,4 @@
-Gem::Specification.new "migration_tools", "1.1.0" do |s|
+Gem::Specification.new "migration_tools", "1.2.0" do |s|
   s.description = "Rake tasks for Rails that add groups to migrations"
   s.summary  = "Encourage migrations that do not require downtime"
   s.homepage = "https://github.com/zendesk/migration_tools"
@@ -8,7 +8,7 @@ Gem::Specification.new "migration_tools", "1.1.0" do |s|
   s.license = "Apache License Version 2.0"
 
   s.add_runtime_dependency "activerecord", '>= 3.2.6', '< 4.3'
-  
+
   s.add_development_dependency "rake"
   s.add_development_dependency "mocha"
   s.add_development_dependency "minitest"
