@@ -6,5 +6,13 @@ Gem::Specification.new "migration_tools", "1.1.0" do |s|
   s.authors = ["Morten Primdahl"]
   s.files = `git ls-files lib`.split("\n")
   s.license = "Apache License Version 2.0"
-  s.add_runtime_dependency "activerecord"
+
+  s.add_runtime_dependency "activerecord", '>= 3.2.6', '< 4.3'
+  
+  s.add_development_dependency "rake"
+  s.add_development_dependency "mocha"
+  s.add_development_dependency "minitest"
+  s.add_development_dependency "minitest-rg"
+  s.add_development_dependency "sqlite3"
+  s.add_development_dependency "wwtd"
 end

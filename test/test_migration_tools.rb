@@ -46,10 +46,6 @@ describe MigrationTools do
     [ Alpha, Beta, Delta, Kappa ]
   end
 
-  def old_migrator?
-    ActiveRecord::VERSION::MAJOR == 2 || (ActiveRecord::VERSION::MAJOR == 3 && ActiveRecord::VERSION::MINOR == 0)
-  end
-
   def proxies
     @proxies ||= migrations.map { |m| migration_proxy(m) }
   end
@@ -58,14 +54,8 @@ describe MigrationTools do
     name = m.name
     version = migrations.index(m)
 
-    if old_migrator?
-      proxy = ActiveRecord::MigrationProxy.new
-      proxy.name = name
-      proxy.version = version
-    else
-      proxy = ActiveRecord::MigrationProxy.new(name, version, nil, nil)
-    end
-    proxy.instance_variable_set(:@migration, (old_migrator? ? m : m.new))
+    proxy = ActiveRecord::MigrationProxy.new(name, version, nil, nil)
+    proxy.instance_variable_set(:@migration, m.new)
     proxy
   end
 
@@ -85,13 +75,7 @@ describe MigrationTools do
   end
 
   it "migration_proxy_delegation" do
-    args = if ActiveRecord::VERSION::MAJOR == 3 && ActiveRecord::VERSION::MINOR > 0
-      [:name, :version, :filename, :scope]
-    else
-      []
-    end
-
-    proxy = ActiveRecord::MigrationProxy.new(*args)
+    proxy = ActiveRecord::MigrationProxy.new(:name, :version, :filename, :scope)
     proxy.expects(:migration).returns(Delta)
     assert_equal "change", proxy.migration_group
   end
