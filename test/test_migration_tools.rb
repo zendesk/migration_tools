@@ -1,45 +1,19 @@
 require File.expand_path '../helper', __FILE__
 
-class Alpha < ActiveRecord::Migration
-  group :before
-  def self.up
-  end
-end
-
-class Beta < ActiveRecord::Migration
-  group :before
-  def self.up
-    puts "Beaver"
-  end
-end
-
-class Delta < ActiveRecord::Migration
-  group :change
-  def self.up
-  end
-end
-
-class Kappa < ActiveRecord::Migration
-  def self.up
-  end
-end
-
 describe MigrationTools do
-
   before do
     ENV['GROUP'] = nil
+
+    ActiveRecord::Base.establish_connection(
+      :adapter => "sqlite3",
+      :database => ":memory:"
+    )
+
     Rake::Task.clear
     Rake::Task.define_task("environment")
     Rake::Task.define_task("db:schema:dump")
+
     @task = MigrationTools::Tasks.new
-
-    def @task.abort(msg = nil)
-      @aborted = true
-    end
-
-    def @task.aborted?
-      @aborted || false
-    end
   end
 
   def migrations
@@ -88,6 +62,7 @@ describe MigrationTools do
     assert MigrationTools.forced?
 
     Alpha.migrate("up")
+
     begin
       Kappa.migrate("up")
       fail "You should not be able to run migrations without groups in forced mode"
@@ -106,23 +81,25 @@ describe MigrationTools do
   end
 
   it "migrate_list_without_pending_without_group" do
-    ActiveRecord::Migrator.expects(:new).returns(stub(:pending_migrations => []))
+    0.upto(3).each {|i| @task.migrator(i).run}
+
     MigrationTools::Tasks.any_instance.expects(:notify).with("Your database schema is up to date", "").once
 
     Rake::Task["db:migrate:list"].invoke
   end
 
   it "migrate_list_without_pending_with_group" do
-    ENV['GROUP'] = 'before'
-    ActiveRecord::Migrator.expects(:new).returns(stub(:pending_migrations => []))
+    @task.migrator(0).run
+    @task.migrator(1).run
+
     MigrationTools::Tasks.any_instance.expects(:notify).with("Your database schema is up to date", "before").once
 
+    ENV['GROUP'] = 'before'
     Rake::Task["db:migrate:list"].invoke
   end
 
   it "migrate_list_with_pending_without_group" do
-    ActiveRecord::Migrator.expects(:new).returns(stub(:pending_migrations => proxies))
-    MigrationTools::Tasks.any_instance.expects(:notify).with("You have #{proxies.size} pending migrations", "").once
+    MigrationTools::Tasks.any_instance.expects(:notify).with("You have 4 pending migrations", "").once
     MigrationTools::Tasks.any_instance.expects(:notify).with("     0 before Alpha").once
     MigrationTools::Tasks.any_instance.expects(:notify).with("     1 before Beta").once
     MigrationTools::Tasks.any_instance.expects(:notify).with("     2 change Delta").once
@@ -133,7 +110,7 @@ describe MigrationTools do
 
   it "migrate_list_with_pending_with_group" do
     ENV['GROUP'] = 'before'
-    ActiveRecord::Migrator.expects(:new).returns(stub(:pending_migrations => proxies))
+
     MigrationTools::Tasks.any_instance.expects(:notify).with("You have 2 pending migrations", "before").once
     MigrationTools::Tasks.any_instance.expects(:notify).with("     0 before Alpha").once
     MigrationTools::Tasks.any_instance.expects(:notify).with("     1 before Beta").once
@@ -143,40 +120,47 @@ describe MigrationTools do
 
   it "abort_if_pending_migrations_with_group_without_migrations" do
     @task.stubs(:notify)
-    ActiveRecord::Migrator.expects(:new).returns(stub(:pending_migrations => proxies))
-    Rake::Task["db:abort_if_pending_migrations:after"].invoke
-    assert !@task.aborted?, "aborted where it shouldn't"
+
+    begin
+      Rake::Task["db:abort_if_pending_migrations:after"].invoke
+    rescue SystemExit
+      fail "aborted where it shouldn't"
+    end
   end
 
   it "abort_if_pending_migrations_with_group_with_migrations" do
-    @task.stubs(:notify)
-    ActiveRecord::Migrator.expects(:new).returns(stub(:pending_migrations => proxies))
-    Rake::Task["db:abort_if_pending_migrations:before"].invoke
-    assert @task.aborted?, "did not abort"
+    lambda {
+      silence_stream(STDOUT) do
+        silence_stream(STDERR) do
+          Rake::Task["db:abort_if_pending_migrations:before"].invoke
+        end
+      end
+    }.must_raise(SystemExit, "did not abort")
   end
 
   it "migrate_group_with_group_without_pending" do
-    ENV['GROUP'] = 'before'
-    ActiveRecord::Migrator.expects(:new).returns(stub(:pending_migrations => []))
+    @task.migrator(0).run
+    @task.migrator(1).run
+
     MigrationTools::Tasks.any_instance.expects(:notify).with("Your database schema is up to date").once
 
+    ENV['GROUP'] = 'before'
     Rake::Task["db:migrate:group"].invoke
   end
 
   it "migrate_group_with_pending" do
     ENV['GROUP'] = 'before'
-    migrator = stub(:pending_migrations => proxies)
-    ActiveRecord::Migrator.expects(:new).returns(migrator)
 
-    proxies.select { |p| p.migration_group == 'before' }.each do |p|
-      ActiveRecord::Migrator.expects(:run).with(:up, @task.migrations_paths, p.version).once
-    end
+    assert_equal 4, @task.migrator.pending_migrations.count
 
     Rake::Task["db:migrate:group"].invoke
+
+    assert_equal 2, @task.migrator.pending_migrations.count
   end
 
   it "migrate_with_invalid_group" do
     ENV['GROUP'] = 'drunk'
+
     begin
       Rake::Task["db:migrate:group"].invoke
       fail "Should throw an error"
@@ -186,7 +170,6 @@ describe MigrationTools do
   end
 
   it "convenience_list_method" do
-    ActiveRecord::Migrator.expects(:new).returns(stub(:pending_migrations => proxies))
     MigrationTools::Tasks.any_instance.expects(:notify).with("You have 2 pending migrations", "before").once
     MigrationTools::Tasks.any_instance.expects(:notify).with("     0 before Alpha").once
     MigrationTools::Tasks.any_instance.expects(:notify).with("     1 before Beta").once

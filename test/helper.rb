@@ -4,11 +4,10 @@ require 'minitest/spec'
 require 'minitest/rg'
 require 'mocha/setup'
 require 'active_support/all'
-
-$LOAD_PATH.unshift File.expand_path("../../lib", __FILE__)
 require 'migration_tools'
 
-ActiveRecord::Base.establish_connection(
-  :adapter => "sqlite3",
-  :database => ":memory:"
-)
+dir = File.expand_path('../migrations', __FILE__)
+ActiveRecord::Migrator.migrations_paths.replace([dir])
+Dir.glob(File.join(dir, '*.rb')).each {|f| require f}
+
+ActiveRecord::Migration.verbose = false
