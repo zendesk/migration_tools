@@ -10,6 +10,7 @@ Gem::Specification.new "migration_tools", "1.2.0" do |s|
   s.add_runtime_dependency "activerecord", '>= 3.2.6', '< 4.3'
 
   s.add_development_dependency "rake"
+  s.add_development_dependency "bump"
   s.add_development_dependency "mocha"
   s.add_development_dependency "minitest"
   s.add_development_dependency "minitest-rg"
