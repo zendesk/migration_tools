@@ -24,15 +24,15 @@ module MigrationTools
     end
 
     def migrations_paths
-      if ActiveRecord::Migrator.respond_to?(:migrations_paths)
-        ActiveRecord::Migrator.migrations_paths
-      else
-        'db/migrate'
-      end
+      ActiveRecord::Migrator.migrations_paths
     end
 
-    def migrator
-      @migrator ||= ActiveRecord::Migrator.new(:up, migrations_paths)
+    def migrator(target_version = nil)
+      if ActiveRecord::VERSION::MAJOR > 3
+        ActiveRecord::Migrator.new(:up, ActiveRecord::Migrator.migrations(migrations_paths), target_version)
+      else
+        ActiveRecord::Migrator.new(:up, migrations_paths, target_version)
+      end
     end
 
     def pending_migrations
@@ -72,7 +72,7 @@ module MigrationTools
               notify "Your database schema is up to date"
             else
               pending_migrations.each do |migration|
-                ActiveRecord::Migrator.run(:up, migrations_paths, migration.version)
+                migrator(migration.version).run
               end
 
               Rake::Task["db:schema:dump"].invoke if ActiveRecord::Base.schema_format == :ruby

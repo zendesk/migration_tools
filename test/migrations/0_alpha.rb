@@ -1,0 +1,6 @@
+class Alpha < ActiveRecord::Migration
+  group :before
+
+  def self.up
+  end
+end

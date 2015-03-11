@@ -1,4 +1,4 @@
-# Migration Tools  [![Build Status](https://secure.travis-ci.org/morten/migration_tools.png)](http://travis-ci.org/morten/migration_tools)
+# Migration Tools  [![Build Status](https://secure.travis-ci.org/morten/migration_tools.png)](http://travis-ci.org/zendesk/migration_tools)
 
 Rake tasks for grouping migrations.
 
@@ -56,7 +56,7 @@ Note that rake db:migrate is entirely unaffected by this.
 
 ## License
 
-Copyright 2013 Zendesk
+Copyright 2015 Zendesk
 
 Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License.
 You may obtain a copy of the License at
