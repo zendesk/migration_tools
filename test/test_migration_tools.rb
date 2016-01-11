@@ -128,6 +128,10 @@ describe MigrationTools do
     end
   end
 
+  if ActiveRecord::VERSION::STRING >= "5.0.0"
+    require 'active_support/testing/stream'
+    include ActiveSupport::Testing::Stream
+  end
   it "abort_if_pending_migrations_with_group_with_migrations" do
     lambda {
       silence_stream(STDOUT) do
