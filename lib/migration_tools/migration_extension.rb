@@ -23,7 +23,8 @@ end
 ActiveRecord::Migration.class_eval do
   extend MigrationTools::MigrationExtension
   class << self
-    alias_method_chain :migrate, :forced_groups
+    alias_method :migrate_without_forced_groups, :migrate
+    alias_method :migrate, :migrate_with_forced_groups
   end
 
   def migration_group
