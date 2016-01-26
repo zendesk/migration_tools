@@ -3,6 +3,7 @@ bundler_args: ""
 cache: bundler
 sudo: false
 rvm:
+  - 1.9.3
   - 2.0.0
   - 2.1.5
   - 2.2.4
@@ -14,6 +15,8 @@ gemfile:
   - gemfiles/rails_5.0.gemfile
 matrix:
   exclude:
+    - rvm: 1.9.3
+      gemfile: gemfiles/rails5.0.gemfile
     - rvm: 2.0.0
       gemfile: gemfiles/rails_5.0.gemfile
     - rvm: 2.1.5

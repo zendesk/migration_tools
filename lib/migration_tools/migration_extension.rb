@@ -11,18 +11,21 @@ module MigrationTools
       self.migration_group = arg.to_s
     end
 
-    def migrate(direction)
+    def migrate_with_forced_groups(direction)
       if MigrationTools.forced? && migration_group.blank?
         raise "Cowardly refusing to run migration without a group. Read https://github.com/zendesk/migration_tools/blob/master/README.md"
       end
-      super
+      migrate_without_forced_groups(direction)
     end
   end
 end
 
-ActiveRecord::Migration.singleton_class.send(:prepend, MigrationTools::MigrationExtension)
-
 ActiveRecord::Migration.class_eval do
+  extend MigrationTools::MigrationExtension
+  class << self
+    alias_method_chain :migrate, :forced_groups
+  end
+
   def migration_group
     self.class.migration_group
   end
