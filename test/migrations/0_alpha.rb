@@ -1,4 +1,4 @@
-class Alpha < ActiveRecord::Migration
+class Alpha < MIGRATION_CLASS
   group :before
 
   def self.up

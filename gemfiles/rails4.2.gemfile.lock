@@ -1,5 +1,5 @@
 PATH
-  remote: ../
+  remote: ..
   specs:
     migration_tools (1.3.1)
       activerecord (>= 3.2.6, < 5.1)
@@ -7,28 +7,32 @@ PATH
 GEM
   remote: https://rubygems.org/
   specs:
-    activemodel (5.0.0)
-      activesupport (= 5.0.0)
-    activerecord (5.0.0)
-      activemodel (= 5.0.0)
-      activesupport (= 5.0.0)
-      arel (~> 7.0)
-    activesupport (5.0.0)
-      concurrent-ruby (~> 1.0, >= 1.0.2)
+    activemodel (4.2.5)
+      activesupport (= 4.2.5)
+      builder (~> 3.1)
+    activerecord (4.2.5)
+      activemodel (= 4.2.5)
+      activesupport (= 4.2.5)
+      arel (~> 6.0)
+    activesupport (4.2.5)
       i18n (~> 0.7)
+      json (~> 1.7, >= 1.7.7)
       minitest (~> 5.1)
+      thread_safe (~> 0.3, >= 0.3.4)
       tzinfo (~> 1.1)
-    arel (7.0.0)
+    arel (6.0.3)
+    builder (3.2.2)
     bump (0.5.3)
-    concurrent-ruby (1.0.2)
     i18n (0.7.0)
+    iconv (1.0.4)
+    json (1.8.3)
     metaclass (0.0.4)
-    minitest (5.9.0)
+    minitest (5.8.3)
     minitest-rg (5.2.0)
       minitest (~> 5.0)
     mocha (1.1.0)
       metaclass (~> 0.0.1)
-    rake (10.5.0)
+    rake (10.4.2)
     sqlite3 (1.3.11)
     thread_safe (0.3.5)
     tzinfo (1.2.2)
@@ -39,8 +43,9 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  activerecord (~> 5.0.0)
+  activerecord (~> 4.2.0)
   bump
+  iconv
   migration_tools!
   minitest
   minitest-rg
@@ -50,4 +55,4 @@ DEPENDENCIES
   wwtd
 
 BUNDLED WITH
-   1.12.5
+   1.14.6

@@ -1,5 +1,5 @@
 PATH
-  remote: ../
+  remote: ..
   specs:
     migration_tools (1.3.1)
       activerecord (>= 3.2.6, < 5.1)
@@ -51,4 +51,4 @@ DEPENDENCIES
   wwtd
 
 BUNDLED WITH
-   1.12.3
+   1.14.6
