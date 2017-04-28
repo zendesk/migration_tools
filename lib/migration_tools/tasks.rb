@@ -10,7 +10,7 @@ module MigrationTools
     end
 
     def group
-      return @group if @group
+      return @group if defined?(@group) && @group
 
       @group = ENV['GROUP'].to_s
       raise "Invalid group \"#{@group}\"" if !@group.empty? && !MIGRATION_GROUPS.member?(@group)
@@ -36,7 +36,7 @@ module MigrationTools
     end
 
     def pending_migrations
-      return @pending_migrations if @pending_migrations
+      return @pending_migrations if defined?(@pending_migrations) && @pending_migrations
       @pending_migrations = migrator.pending_migrations
       @pending_migrations = @pending_migrations.select { |proxy| group.empty? || proxy.migration_group == group }
 
