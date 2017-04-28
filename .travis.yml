@@ -9,12 +9,12 @@ rvm:
   - 2.3.4
   - 2.4.1
 gemfile:
-  - gemfiles/rails_3.2.gemfile
-  - gemfiles/rails_4.2.gemfile
-  - gemfiles/rails_5.0.gemfile
+  - gemfiles/rails3.2.gemfile
+  - gemfiles/rails4.2.gemfile
+  - gemfiles/rails5.0.gemfile
 matrix:
   exclude:
     - rvm: 2.4.1
-      gemfile: gemfiles/rails_3.2.gemfile
+      gemfile: gemfiles/rails3.2.gemfile
     - rvm: 2.4.1
-      gemfile: gemfiles/rails_4.2.gemfile
+      gemfile: gemfiles/rails4.2.gemfile
