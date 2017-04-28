@@ -1,4 +1,4 @@
-class Kappa < ActiveRecord::Migration
+class Kappa < MIGRATION_CLASS
   def self.up
   end
 end

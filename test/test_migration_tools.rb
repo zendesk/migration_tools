@@ -41,7 +41,7 @@ describe MigrationTools do
 
   it "runtime_checking" do
     begin
-      eval("class Kappa < ActiveRecord::Migration; group 'drunk'; end")
+      eval("class Kappa < MIGRATION_CLASS; group 'drunk'; end")
       fail "You should not be able to specify custom groups"
     rescue RuntimeError => e
       assert e.message.index('Invalid group "drunk" - valid groups are ["before", "during", "after", "change"]')
