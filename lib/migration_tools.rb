@@ -8,7 +8,7 @@ require 'migration_tools/tasks'
 
 module MigrationTools
   def self.forced?
-    !!@forced
+    defined?(@forced) && !!@forced
   end
 
   def self.forced!
