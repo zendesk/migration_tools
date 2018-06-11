@@ -2,7 +2,7 @@ PATH
   remote: ..
   specs:
     migration_tools (1.4.0)
-      activerecord (>= 3.2.6, < 5.2)
+      activerecord (>= 3.2.6, < 6.0)
 
 GEM
   remote: https://rubygems.org/
@@ -55,4 +55,4 @@ DEPENDENCIES
   wwtd
 
 BUNDLED WITH
-   1.16.0
+   1.16.2
