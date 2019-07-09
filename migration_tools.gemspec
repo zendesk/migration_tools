@@ -5,7 +5,7 @@ Gem::Specification.new "migration_tools", "1.5.0" do |s|
   s.email = "morten@zendesk.com"
   s.authors = ["Morten Primdahl"]
   s.files = `git ls-files lib`.split("\n")
-  s.license = "Apache License Version 2.0"
+  s.license = "Apache-2.0"
   s.metadata['allowed_push_host'] = "https://zdrepo.jfrog.io/zdrepo/api/gems/gems-local/"
 
   s.add_runtime_dependency "activerecord", '>= 3.2.6', '< 6.0'
