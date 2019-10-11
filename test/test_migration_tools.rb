@@ -60,17 +60,15 @@ describe MigrationTools do
 
   it "forcing" do
     assert !MigrationTools.forced?
-    Kappa.new.migrate("up")
-
     MigrationTools.forced!
     assert MigrationTools.forced?
 
-    Alpha.new.migrate("up")
+    @task.migrator(0).run
 
     begin
-      Kappa.new.migrate("up")
+      @task.migrator(3).run
       fail "You should not be able to run migrations without groups in forced mode"
-    rescue RuntimeError => e
+    rescue => e
       assert e.message =~ /Cowardly refusing/
     end
   end
