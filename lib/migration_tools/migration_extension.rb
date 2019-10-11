@@ -1,14 +1,15 @@
 module MigrationTools
   module MigrationExtension
+    module ClassMethods
+      attr_accessor :migration_group
 
-    attr_accessor :migration_group
+      def group(arg = nil)
+        unless MigrationTools::MIGRATION_GROUPS.member?(arg.to_s)
+          raise "Invalid group \"#{arg.to_s}\" - valid groups are #{MigrationTools::MIGRATION_GROUPS.inspect}"
+        end
 
-    def group(arg = nil)
-      unless MigrationTools::MIGRATION_GROUPS.member?(arg.to_s)
-        raise "Invalid group \"#{arg.to_s}\" - valid groups are #{MigrationTools::MIGRATION_GROUPS.inspect}"
+        self.migration_group = arg.to_s
       end
-
-      self.migration_group = arg.to_s
     end
 
     def migrate_with_forced_groups(direction)
@@ -21,14 +22,15 @@ module MigrationTools
 end
 
 ActiveRecord::Migration.class_eval do
-  extend MigrationTools::MigrationExtension
-  class << self
-    alias_method :migrate_without_forced_groups, :migrate
-    alias_method :migrate, :migrate_with_forced_groups
-  end
+  extend MigrationTools::MigrationExtension::ClassMethods
+  include MigrationTools::MigrationExtension
+
+  alias_method :migrate_without_forced_groups, :migrate
+  alias_method :migrate, :migrate_with_forced_groups
 
   def migration_group
     self.class.migration_group
   end
 end
+
 ActiveRecord::MigrationProxy.delegate :migration_group, :to => :migration

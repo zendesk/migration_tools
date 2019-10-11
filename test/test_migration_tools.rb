@@ -16,6 +16,10 @@ describe MigrationTools do
     @task = MigrationTools::Tasks.new
   end
 
+  after do
+    MigrationTools.instance_variable_set('@forced', false)
+  end
+
   def migrations
     [ Alpha, Beta, Delta, Kappa ]
   end
@@ -56,15 +60,15 @@ describe MigrationTools do
 
   it "forcing" do
     assert !MigrationTools.forced?
-    Kappa.migrate("up")
+    Kappa.new.migrate("up")
 
     MigrationTools.forced!
     assert MigrationTools.forced?
 
-    Alpha.migrate("up")
+    Alpha.new.migrate("up")
 
     begin
-      Kappa.migrate("up")
+      Kappa.new.migrate("up")
       fail "You should not be able to run migrations without groups in forced mode"
     rescue RuntimeError => e
       assert e.message =~ /Cowardly refusing/
