@@ -28,15 +28,25 @@ module MigrationTools
     end
 
     def migrator(target_version = nil)
-      if ActiveRecord::VERSION::MAJOR > 3
-        migrations = if defined?(::ActiveRecord::MigrationContext)
-          ActiveRecord::MigrationContext.new(migrations_paths).migrations
-        else
-          ActiveRecord::Migrator.migrations(migrations_paths)
-        end
-        ActiveRecord::Migrator.new(:up, migrations, target_version)
+      if ActiveRecord::VERSION::MAJOR >= 6
+        migrate_up(ActiveRecord::MigrationContext.new(
+          migrations_paths,
+          ActiveRecord::SchemaMigration
+        ).migrations, target_version)
+      elsif ActiveRecord::VERSION::MAJOR == 5 && ActiveRecord::VERSION::MINOR == 2
+        migrate_up(ActiveRecord::MigrationContext.new(migrations_paths).migrations, target_version)
+      elsif ActiveRecord::VERSION::MAJOR > 3
+        migrate_up(ActiveRecord::Migrator.migrations(migrations_paths), target_version)
       else
-        ActiveRecord::Migrator.new(:up, migrations_paths, target_version)
+        migrate_up(migrations_paths, target_version)
+      end
+    end
+
+    def migrate_up(migrations, target_version)
+      if ActiveRecord::VERSION::MAJOR  >= 6
+        ActiveRecord::Migrator.new(:up, migrations, ActiveRecord::SchemaMigration, target_version)
+      else
+        ActiveRecord::Migrator.new(:up, migrations, target_version)
       end
     end
 
