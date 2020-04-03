@@ -1,7 +1,6 @@
 script: "bundle exec rake test"
 bundler_args: ""
 cache: bundler
-sudo: false
 before_install:
   - gem install bundler
 branches:
