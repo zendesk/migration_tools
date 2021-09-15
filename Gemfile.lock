@@ -22,7 +22,6 @@ GEM
     concurrent-ruby (1.1.9)
     i18n (1.8.10)
       concurrent-ruby (~> 1.0)
-    iconv (1.0.8)
     minitest (5.14.4)
     minitest-rg (5.2.0)
       minitest (~> 5.0)
@@ -42,7 +41,6 @@ PLATFORMS
 
 DEPENDENCIES
   bump
-  iconv
   migration_tools!
   minitest
   minitest-rg
