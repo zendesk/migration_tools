@@ -47,7 +47,7 @@ DEPENDENCIES
   minitest-rg
   mocha
   rake
-  sqlite3
+  sqlite3 (~> 1.4)
   wwtd
 
 BUNDLED WITH
