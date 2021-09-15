@@ -35,10 +35,8 @@ module MigrationTools
         ).migrations, target_version)
       elsif ActiveRecord::VERSION::MAJOR == 5 && ActiveRecord::VERSION::MINOR == 2
         migrate_up(ActiveRecord::MigrationContext.new(migrations_paths).migrations, target_version)
-      elsif ActiveRecord::VERSION::MAJOR > 3
-        migrate_up(ActiveRecord::Migrator.migrations(migrations_paths), target_version)
       else
-        migrate_up(migrations_paths, target_version)
+        migrate_up(ActiveRecord::Migrator.migrations(migrations_paths), target_version)
       end
     end
 
