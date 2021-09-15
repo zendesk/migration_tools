@@ -133,13 +133,13 @@ describe MigrationTools do
     include ActiveSupport::Testing::Stream
   end
   it "abort_if_pending_migrations_with_group_with_migrations" do
-    lambda {
-      silence_stream(STDOUT) do
-        silence_stream(STDERR) do
+    assert_raises(SystemExit, "did not abort") do
+      silence_stream($stdout) do
+        silence_stream($stderr) do
           Rake::Task["db:abort_if_pending_migrations:before"].invoke
         end
       end
-    }.must_raise(SystemExit, "did not abort")
+    end
   end
 
   it "migrate_group_with_group_without_pending" do
