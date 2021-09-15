@@ -1,4 +1,4 @@
-# Migration Tools  [![Build Status](https://secure.travis-ci.org/morten/migration_tools.png)](http://travis-ci.org/zendesk/migration_tools)
+# Migration Tools  [![Build Status](https://github.com/zendesk/migration_tools/workflows/CI/badge.svg)](https://github.com/zendesk/migration_tools/actions?query=workflow%3ACI)
 
 Rake tasks for grouping migrations.
 
