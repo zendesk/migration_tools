@@ -2,7 +2,7 @@ PATH
   remote: .
   specs:
     migration_tools (1.6.0)
-      activerecord (>= 3.2.6, < 6.1)
+      activerecord (>= 4.2.0, < 6.1)
 
 GEM
   remote: https://rubygems.org/
