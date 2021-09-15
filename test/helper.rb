@@ -2,7 +2,7 @@ require 'bundler/setup'
 require 'minitest/autorun'
 require 'minitest/spec'
 require 'minitest/rg'
-require 'mocha/setup'
+require 'mocha/minitest'
 require 'active_support/all'
 require 'migration_tools'
 
