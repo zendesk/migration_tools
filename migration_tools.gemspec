@@ -7,7 +7,7 @@ Gem::Specification.new "migration_tools", "1.7.0" do |s|
   s.files = `git ls-files lib`.split("\n")
   s.license = "Apache-2.0"
 
-  s.add_runtime_dependency "activerecord", '>= 4.2.0', '< 6.2'
+  s.add_runtime_dependency "activerecord", '>= 4.2.0', '< 7.1'
 
   s.add_development_dependency "rake"
   s.add_development_dependency "bump"

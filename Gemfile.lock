@@ -2,25 +2,24 @@ PATH
   remote: .
   specs:
     migration_tools (1.7.0)
-      activerecord (>= 4.2.0, < 6.2)
+      activerecord (>= 4.2.0, < 7.1)
 
 GEM
   remote: https://rubygems.org/
   specs:
-    activemodel (6.1.4.1)
-      activesupport (= 6.1.4.1)
-    activerecord (6.1.4.1)
-      activemodel (= 6.1.4.1)
-      activesupport (= 6.1.4.1)
-    activesupport (6.1.4.1)
+    activemodel (7.0.3.1)
+      activesupport (= 7.0.3.1)
+    activerecord (7.0.3.1)
+      activemodel (= 7.0.3.1)
+      activesupport (= 7.0.3.1)
+    activesupport (7.0.3.1)
       concurrent-ruby (~> 1.0, >= 1.0.2)
       i18n (>= 1.6, < 2)
       minitest (>= 5.1)
       tzinfo (~> 2.0)
-      zeitwerk (~> 2.3)
     bump (0.10.0)
-    concurrent-ruby (1.1.9)
-    i18n (1.8.10)
+    concurrent-ruby (1.1.10)
+    i18n (1.11.0)
       concurrent-ruby (~> 1.0)
     minitest (5.14.4)
     minitest-rg (5.2.0)
@@ -30,10 +29,10 @@ GEM
     sqlite3 (1.4.2)
     tzinfo (2.0.4)
       concurrent-ruby (~> 1.0)
-    zeitwerk (2.4.2)
 
 PLATFORMS
   x86_64-darwin-19
+  x86_64-linux
 
 DEPENDENCIES
   bump
