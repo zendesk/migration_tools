@@ -1,5 +1,5 @@
 PATH
-  remote: .
+  remote: ..
   specs:
     migration_tools (1.7.0)
       activerecord (>= 4.2.0, < 7.1)
@@ -7,42 +7,45 @@ PATH
 GEM
   remote: https://rubygems.org/
   specs:
-    activemodel (6.1.4.1)
-      activesupport (= 6.1.4.1)
-    activerecord (6.1.4.1)
-      activemodel (= 6.1.4.1)
-      activesupport (= 6.1.4.1)
-    activesupport (6.1.4.1)
+    activemodel (7.0.4)
+      activesupport (= 7.0.4)
+    activerecord (7.0.4)
+      activemodel (= 7.0.4)
+      activesupport (= 7.0.4)
+    activesupport (7.0.4)
       concurrent-ruby (~> 1.0, >= 1.0.2)
       i18n (>= 1.6, < 2)
       minitest (>= 5.1)
       tzinfo (~> 2.0)
-      zeitwerk (~> 2.3)
     bump (0.10.0)
-    concurrent-ruby (1.1.9)
-    i18n (1.8.10)
+    concurrent-ruby (1.1.10)
+    i18n (1.12.0)
       concurrent-ruby (~> 1.0)
-    minitest (5.14.4)
+    mini_portile2 (2.8.0)
+    minitest (5.16.3)
     minitest-rg (5.2.0)
       minitest (~> 5.0)
-    mocha (1.13.0)
+    mocha (2.0.2)
+      ruby2_keywords (>= 0.0.5)
     rake (13.0.6)
-    sqlite3 (1.4.2)
-    tzinfo (2.0.4)
+    ruby2_keywords (0.0.5)
+    sqlite3 (1.5.4)
+      mini_portile2 (~> 2.8.0)
+    tzinfo (2.0.5)
       concurrent-ruby (~> 1.0)
-    zeitwerk (2.4.2)
 
 PLATFORMS
-  x86_64-darwin-19
+  ruby
 
 DEPENDENCIES
+  activerecord (~> 7.0.0)
   bump
   migration_tools!
   minitest
   minitest-rg
   mocha
   rake
-  sqlite3
+  sqlite3 (~> 1.4)
 
 BUNDLED WITH
-   2.2.27
+   2.3.25
