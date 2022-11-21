@@ -10,6 +10,7 @@ jobs:
         ruby-version:
           - '2.5'
           - '2.6'
+          - '2.7'
         gemfile:
           - rails4.2
           - rails5.0
@@ -17,6 +18,11 @@ jobs:
           - rails5.2
           - rails6.0
           - rails6.1
+          - rails7.0
+        exclude:
+          - {ruby-version: '2.5', gemfile: rails7.0}
+          - {ruby-version: '2.6', gemfile: rails7.0}
+          - {ruby-version: '2.7', gemfile: rails4.2}
     env:
       BUNDLE_GEMFILE: gemfiles/${{ matrix.gemfile }}.gemfile
     steps:
