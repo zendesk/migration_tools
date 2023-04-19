@@ -22,17 +22,22 @@ GEM
     concurrent-ruby (1.1.9)
     i18n (1.8.10)
       concurrent-ruby (~> 1.0)
+    mini_portile2 (2.8.1)
     minitest (5.14.4)
     minitest-rg (5.2.0)
       minitest (~> 5.0)
     mocha (1.13.0)
     rake (13.0.6)
-    sqlite3 (1.4.2)
+    sqlite3 (1.6.2)
+      mini_portile2 (~> 2.8.0)
+    sqlite3 (1.6.2-x86_64-darwin)
+    sqlite3 (1.6.2-x86_64-linux)
     tzinfo (2.0.4)
       concurrent-ruby (~> 1.0)
     zeitwerk (2.4.2)
 
 PLATFORMS
+  ruby
   x86_64-darwin-19
   x86_64-darwin-20
   x86_64-linux
