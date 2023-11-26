@@ -16,6 +16,7 @@ jobs:
           - rails6.0
           - rails6.1
           - rails7.0
+          - rails7.1
         include:
           - {ruby-version: '2.6', gemfile: rails4.2}
           - {ruby-version: '2.6', gemfile: rails5.0}
