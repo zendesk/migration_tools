@@ -1,8 +1,8 @@
-require File.expand_path '../helper', __FILE__
+require File.expand_path "../helper", __FILE__
 
 describe MigrationTools do
   before do
-    ENV['GROUP'] = nil
+    ENV["GROUP"] = nil
 
     ActiveRecord::Base.establish_connection(
       :adapter => "sqlite3",
@@ -34,8 +34,8 @@ describe MigrationTools do
   end
 
   it "grouping" do
-    assert_equal [ Alpha, Beta ], migrations.select { |m| m.migration_group == 'before' }
-    assert_equal [ Delta ], migrations.select { |m| m.migration_group == 'change' }
+    assert_equal [ Alpha, Beta ], migrations.select { |m| m.migration_group == "before" }
+    assert_equal [ Delta ], migrations.select { |m| m.migration_group == "change" }
     assert_equal [ Kappa ], migrations.select { |m| m.migration_group.nil? }
   end
 
@@ -94,7 +94,7 @@ describe MigrationTools do
 
     @task.expects(:notify).with("Your database schema is up to date", "before").once
 
-    ENV['GROUP'] = 'before'
+    ENV["GROUP"] = "before"
     Rake::Task["db:migrate:list"].invoke
   end
 
@@ -109,7 +109,7 @@ describe MigrationTools do
   end
 
   it "migrate_list_with_pending_with_group" do
-    ENV['GROUP'] = 'before'
+    ENV["GROUP"] = "before"
 
     @task.expects(:notify).with("You have 2 pending migrations", "before").once
     @task.expects(:notify).with("     0 before Alpha").once
@@ -128,7 +128,7 @@ describe MigrationTools do
     end
   end
 
-  require 'active_support/testing/stream'
+  require "active_support/testing/stream"
   include ActiveSupport::Testing::Stream
 
   it "abort_if_pending_migrations_with_group_with_migrations" do
@@ -147,12 +147,12 @@ describe MigrationTools do
 
     @task.expects(:notify).with("Your database schema is up to date").once
 
-    ENV['GROUP'] = 'before'
+    ENV["GROUP"] = "before"
     Rake::Task["db:migrate:group"].invoke
   end
 
   it "migrate_group_with_pending" do
-    ENV['GROUP'] = 'before'
+    ENV["GROUP"] = "before"
 
     assert_equal 4, @task.migrator.pending_migrations.count
 
@@ -162,7 +162,7 @@ describe MigrationTools do
   end
 
   it "migrate_with_invalid_group" do
-    ENV['GROUP'] = 'drunk'
+    ENV["GROUP"] = "drunk"
 
     begin
       Rake::Task["db:migrate:group"].invoke
