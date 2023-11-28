@@ -1,6 +1,5 @@
 module MigrationTools
   module MigrationExtension
-
     attr_accessor :migration_group
 
     def group(arg = nil)

@@ -15,5 +15,5 @@ module MigrationTools
     @forced = true
   end
 
-  MIGRATION_GROUPS = [ "before", "during", "after", "change" ]
+  MIGRATION_GROUPS = ["before", "during", "after", "change"]
 end

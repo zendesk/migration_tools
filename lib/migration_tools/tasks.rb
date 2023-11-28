@@ -46,8 +46,7 @@ module MigrationTools
         ActiveRecord::Migrator.new(:up, migrations,
           ActiveRecord::Base.connection.schema_migration,
           ActiveRecord::Base.connection.internal_metadata,
-          target_version
-        )
+          target_version)
       else
         ActiveRecord::Migrator.new(:up, migrations, ActiveRecord::SchemaMigration, target_version)
       end
@@ -71,7 +70,7 @@ module MigrationTools
             else
               notify "You have #{pending_migrations.size} pending migrations", group
               pending_migrations.each do |migration|
-                notify "  %4d %s %s" % [ migration.version, migration.migration_group.to_s[0..5].center(6), migration.name ]
+                notify "  %4d %s %s" % [migration.version, migration.migration_group.to_s[0..5].center(6), migration.name]
               end
             end
           end
@@ -94,10 +93,10 @@ module MigrationTools
               end
 
               schema_format = if ActiveRecord::VERSION::MAJOR >= 7
-                                ActiveRecord.schema_format
-                              else
-                                ActiveRecord::Base.schema_format
-                              end
+                ActiveRecord.schema_format
+              else
+                ActiveRecord::Base.schema_format
+              end
 
               Rake::Task["db:schema:dump"].invoke if schema_format == :ruby
               Rake::Task["db:structure:dump"].invoke if schema_format == :sql
@@ -110,10 +109,10 @@ module MigrationTools
     def define_convenience_tasks
       namespace :db do
         namespace :migrate do
-          [ :list, :group ].each do |ns|
+          [:list, :group].each do |ns|
             namespace ns do
               MigrationTools::MIGRATION_GROUPS.each do |migration_group|
-                desc "#{ns == :list ? 'Lists' : 'Executes' } the migrations for group #{migration_group}"
+                desc "#{ns == :list ? 'Lists' : 'Executes'} the migrations for group #{migration_group}"
                 task migration_group => :environment do
                   self.group = migration_group.to_s
                   Rake::Task["db:migrate:#{ns}"].invoke
@@ -144,7 +143,7 @@ module MigrationTools
       if group.empty?
         puts string
       else
-        puts string + " for group \""+group+"\""
+        puts "#{string} for group \"#{group}\""
       end
     end
   end

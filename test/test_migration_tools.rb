@@ -17,7 +17,7 @@ describe MigrationTools do
   end
 
   def migrations
-    [ Alpha, Beta, Delta, Kappa ]
+    [Alpha, Beta, Delta, Kappa]
   end
 
   def proxies
@@ -34,9 +34,9 @@ describe MigrationTools do
   end
 
   it "grouping" do
-    assert_equal [ Alpha, Beta ], migrations.select { |m| m.migration_group == "before" }
-    assert_equal [ Delta ], migrations.select { |m| m.migration_group == "change" }
-    assert_equal [ Kappa ], migrations.select { |m| m.migration_group.nil? }
+    assert_equal [Alpha, Beta], migrations.select { |m| m.migration_group == "before" }
+    assert_equal [Delta], migrations.select { |m| m.migration_group == "change" }
+    assert_equal [Kappa], migrations.select { |m| m.migration_group.nil? }
   end
 
   it "runtime_checking" do
@@ -81,7 +81,7 @@ describe MigrationTools do
   end
 
   it "migrate_list_without_pending_without_group" do
-    0.upto(3).each {|i| @task.migrator(i).run}
+    0.upto(3).each { |i| @task.migrator(i).run }
 
     @task.expects(:notify).with("Your database schema is up to date", "").once
 
