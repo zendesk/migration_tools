@@ -11,6 +11,6 @@ MIGRATION_CLASS = ActiveRecord::Migration[rails_version]
 
 dir = File.expand_path("../migrations", __FILE__)
 ActiveRecord::Migrator.migrations_paths.replace([dir])
-Dir.glob(File.join(dir, "*.rb")).each { |f| require f }
+Dir.glob(File.join(dir, "*.rb")).sort.each { |f| require f }
 
 ActiveRecord::Migration.verbose = false

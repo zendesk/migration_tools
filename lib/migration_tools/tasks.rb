@@ -64,7 +64,7 @@ module MigrationTools
       namespace :db do
         namespace :migrate do
           desc "Lists pending migrations"
-          task :list => :environment do
+          task list: :environment do
             if pending_migrations.empty?
               notify "Your database schema is up to date", group
             else
@@ -82,7 +82,7 @@ module MigrationTools
       namespace :db do
         namespace :migrate do
           desc "Runs pending migrations for a given group"
-          task :group => :environment do
+          task group: :environment do
             if group.empty?
               notify "Please specify a migration group"
             elsif pending_migrations.empty?
@@ -112,7 +112,7 @@ module MigrationTools
           [:list, :group].each do |ns|
             namespace ns do
               MigrationTools::MIGRATION_GROUPS.each do |migration_group|
-                desc "#{ns == :list ? 'Lists' : 'Executes'} the migrations for group #{migration_group}"
+                desc "#{(ns == :list) ? "Lists" : "Executes"} the migrations for group #{migration_group}"
                 task migration_group => :environment do
                   self.group = migration_group.to_s
                   Rake::Task["db:migrate:#{ns}"].invoke

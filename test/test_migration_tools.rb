@@ -5,8 +5,8 @@ describe MigrationTools do
     ENV["GROUP"] = nil
 
     ActiveRecord::Base.establish_connection(
-      :adapter => "sqlite3",
-      :database => ":memory:"
+      adapter: "sqlite3",
+      database: ":memory:"
     )
 
     Rake::Task.clear
@@ -40,12 +40,10 @@ describe MigrationTools do
   end
 
   it "runtime_checking" do
-    begin
-      eval("class Kappa < MIGRATION_CLASS; group 'drunk'; end")
-      fail "You should not be able to specify custom groups"
-    rescue RuntimeError => e
-      assert e.message.index('Invalid group "drunk" - valid groups are ["before", "during", "after", "change"]')
-    end
+    eval("class Kappa < MIGRATION_CLASS; group 'drunk'; end", binding, __FILE__, __LINE__)
+    fail "You should not be able to specify custom groups"
+  rescue RuntimeError => e
+    assert e.message.index('Invalid group "drunk" - valid groups are ["before", "during", "after", "change"]')
   end
 
   it "migration_proxy_delegation" do
