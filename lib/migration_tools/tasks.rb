@@ -28,7 +28,12 @@ module MigrationTools
     end
 
     def migrator(target_version = nil)
-      if ActiveRecord::VERSION::MAJOR >= 6
+      if ActiveRecord::VERSION::MAJOR >= 7 && ActiveRecord::VERSION::MINOR >= 1
+        migrate_up(ActiveRecord::MigrationContext.new(
+          migrations_paths,
+          ActiveRecord::Base.connection.schema_migration
+        ).migrations, target_version)
+      elsif ActiveRecord::VERSION::MAJOR >= 6
         migrate_up(ActiveRecord::MigrationContext.new(
           migrations_paths,
           ActiveRecord::SchemaMigration
@@ -41,7 +46,13 @@ module MigrationTools
     end
 
     def migrate_up(migrations, target_version)
-      if ActiveRecord::VERSION::MAJOR  >= 6
+      if ActiveRecord::VERSION::MAJOR >= 7 && ActiveRecord::VERSION::MINOR >= 1
+        ActiveRecord::Migrator.new(:up, migrations,
+          ActiveRecord::Base.connection.schema_migration,
+          ActiveRecord::Base.connection.internal_metadata,
+          target_version
+        )
+      elsif ActiveRecord::VERSION::MAJOR >= 6
         ActiveRecord::Migrator.new(:up, migrations, ActiveRecord::SchemaMigration, target_version)
       else
         ActiveRecord::Migrator.new(:up, migrations, target_version)
@@ -88,8 +99,14 @@ module MigrationTools
                 migrator(migration.version).run
               end
 
-              Rake::Task["db:schema:dump"].invoke if ActiveRecord::Base.schema_format == :ruby
-              Rake::Task["db:structure:dump"].invoke if ActiveRecord::Base.schema_format == :sql
+              schema_format = if ActiveRecord::VERSION::MAJOR >= 7
+                                ActiveRecord.schema_format
+                              else
+                                ActiveRecord::Base.schema_format
+                              end
+
+              Rake::Task["db:schema:dump"].invoke if schema_format == :ruby
+              Rake::Task["db:structure:dump"].invoke if schema_format == :sql
             end
           end
         end

@@ -83,7 +83,7 @@ describe MigrationTools do
   it "migrate_list_without_pending_without_group" do
     0.upto(3).each {|i| @task.migrator(i).run}
 
-    MigrationTools::Tasks.any_instance.expects(:notify).with("Your database schema is up to date", "").once
+    @task.expects(:notify).with("Your database schema is up to date", "").once
 
     Rake::Task["db:migrate:list"].invoke
   end
@@ -92,18 +92,18 @@ describe MigrationTools do
     @task.migrator(0).run
     @task.migrator(1).run
 
-    MigrationTools::Tasks.any_instance.expects(:notify).with("Your database schema is up to date", "before").once
+    @task.expects(:notify).with("Your database schema is up to date", "before").once
 
     ENV['GROUP'] = 'before'
     Rake::Task["db:migrate:list"].invoke
   end
 
   it "migrate_list_with_pending_without_group" do
-    MigrationTools::Tasks.any_instance.expects(:notify).with("You have 4 pending migrations", "").once
-    MigrationTools::Tasks.any_instance.expects(:notify).with("     0 before Alpha").once
-    MigrationTools::Tasks.any_instance.expects(:notify).with("     1 before Beta").once
-    MigrationTools::Tasks.any_instance.expects(:notify).with("     2 change Delta").once
-    MigrationTools::Tasks.any_instance.expects(:notify).with("     3        Kappa").once
+    @task.expects(:notify).with("You have 4 pending migrations", "").once
+    @task.expects(:notify).with("     0 before Alpha").once
+    @task.expects(:notify).with("     1 before Beta").once
+    @task.expects(:notify).with("     2 change Delta").once
+    @task.expects(:notify).with("     3        Kappa").once
 
     Rake::Task["db:migrate:list"].invoke
   end
@@ -111,9 +111,9 @@ describe MigrationTools do
   it "migrate_list_with_pending_with_group" do
     ENV['GROUP'] = 'before'
 
-    MigrationTools::Tasks.any_instance.expects(:notify).with("You have 2 pending migrations", "before").once
-    MigrationTools::Tasks.any_instance.expects(:notify).with("     0 before Alpha").once
-    MigrationTools::Tasks.any_instance.expects(:notify).with("     1 before Beta").once
+    @task.expects(:notify).with("You have 2 pending migrations", "before").once
+    @task.expects(:notify).with("     0 before Alpha").once
+    @task.expects(:notify).with("     1 before Beta").once
 
     Rake::Task["db:migrate:list"].invoke
   end
@@ -146,7 +146,7 @@ describe MigrationTools do
     @task.migrator(0).run
     @task.migrator(1).run
 
-    MigrationTools::Tasks.any_instance.expects(:notify).with("Your database schema is up to date").once
+    @task.expects(:notify).with("Your database schema is up to date").once
 
     ENV['GROUP'] = 'before'
     Rake::Task["db:migrate:group"].invoke
@@ -174,9 +174,9 @@ describe MigrationTools do
   end
 
   it "convenience_list_method" do
-    MigrationTools::Tasks.any_instance.expects(:notify).with("You have 2 pending migrations", "before").once
-    MigrationTools::Tasks.any_instance.expects(:notify).with("     0 before Alpha").once
-    MigrationTools::Tasks.any_instance.expects(:notify).with("     1 before Beta").once
+    @task.expects(:notify).with("You have 2 pending migrations", "before").once
+    @task.expects(:notify).with("     0 before Alpha").once
+    @task.expects(:notify).with("     1 before Beta").once
 
     Rake::Task["db:migrate:list:before"].invoke
   end

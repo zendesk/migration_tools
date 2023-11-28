@@ -16,11 +16,8 @@ jobs:
           - rails6.0
           - rails6.1
           - rails7.0
+          - rails7.1
         include:
-          - {ruby-version: '2.5', gemfile: rails4.2}
-          - {ruby-version: '2.5', gemfile: rails5.0}
-          - {ruby-version: '2.5', gemfile: rails5.1}
-          - {ruby-version: '2.5', gemfile: rails5.2}
           - {ruby-version: '2.6', gemfile: rails4.2}
           - {ruby-version: '2.6', gemfile: rails5.0}
           - {ruby-version: '2.6', gemfile: rails5.1}
@@ -29,8 +26,8 @@ jobs:
     env:
       BUNDLE_GEMFILE: gemfiles/${{ matrix.gemfile }}.gemfile
     steps:
-      - uses: zendesk/checkout@v3
-      - uses: zendesk/setup-ruby@v1
+      - uses: actions/checkout@v4
+      - uses: ruby/setup-ruby@v1
         with:
           ruby-version: ${{ matrix.ruby-version }}
           bundler-cache: true
