@@ -17,4 +17,5 @@ Gem::Specification.new "migration_tools", "1.9.0" do |s|
   s.add_development_dependency "minitest"
   s.add_development_dependency "minitest-rg"
   s.add_development_dependency "sqlite3"
+  s.add_development_dependency "standard"
 end

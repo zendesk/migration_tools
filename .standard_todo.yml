@@ -1,0 +1,39 @@
+# Auto generated files with errors to ignore.
+# Remove from this list as you refactor files.
+---
+ignore:
+- Rakefile:
+  - Style/StringLiterals
+- lib/migration_tools.rb:
+  - Style/StringLiterals
+  - Layout/SpaceInsideArrayLiteralBrackets
+- lib/migration_tools/migration_extension.rb:
+  - Layout/EmptyLinesAroundModuleBody
+  - Lint/RedundantStringCoercion
+  - Style/HashSyntax
+- lib/migration_tools/tasks.rb:
+  - Style/StringLiterals
+  - Layout/MultilineMethodCallBraceLayout
+  - Style/HashSyntax
+  - Layout/SpaceInsideArrayLiteralBrackets
+  - Layout/IndentationWidth
+  - Layout/ElseAlignment
+  - Layout/EndAlignment
+  - Style/TernaryParentheses
+  - Style/StringLiteralsInInterpolation
+  - Layout/SpaceInsideStringInterpolation
+  - Layout/SpaceAroundOperators
+- migration_tools.gemspec:
+  - Layout/ExtraSpacing
+  - Style/StringLiterals
+- test/helper.rb:
+  - Style/StringLiterals
+  - Lint/NonDeterministicRequireOrder
+  - Layout/SpaceInsideBlockBraces
+- test/test_migration_tools.rb:
+  - Style/StringLiterals
+  - Style/HashSyntax
+  - Layout/SpaceInsideArrayLiteralBrackets
+  - Style/RedundantBegin
+  - Style/EvalWithLocation
+  - Layout/SpaceInsideBlockBraces
