@@ -33,15 +33,11 @@ module MigrationTools
           migrations_paths,
           ActiveRecord::Base.connection.schema_migration
         ).migrations, target_version)
-      elsif ActiveRecord::VERSION::MAJOR >= 6
+      else
         migrate_up(ActiveRecord::MigrationContext.new(
           migrations_paths,
           ActiveRecord::SchemaMigration
         ).migrations, target_version)
-      elsif ActiveRecord::VERSION::MAJOR == 5 && ActiveRecord::VERSION::MINOR == 2
-        migrate_up(ActiveRecord::MigrationContext.new(migrations_paths).migrations, target_version)
-      else
-        migrate_up(ActiveRecord::Migrator.migrations(migrations_paths), target_version)
       end
     end
 
@@ -52,10 +48,8 @@ module MigrationTools
           ActiveRecord::Base.connection.internal_metadata,
           target_version
         )
-      elsif ActiveRecord::VERSION::MAJOR >= 6
-        ActiveRecord::Migrator.new(:up, migrations, ActiveRecord::SchemaMigration, target_version)
       else
-        ActiveRecord::Migrator.new(:up, migrations, target_version)
+        ActiveRecord::Migrator.new(:up, migrations, ActiveRecord::SchemaMigration, target_version)
       end
     end
 

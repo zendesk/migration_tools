@@ -128,10 +128,9 @@ describe MigrationTools do
     end
   end
 
-  if ActiveRecord.gem_version >= Gem::Version.new("5.0")
-    require 'active_support/testing/stream'
-    include ActiveSupport::Testing::Stream
-  end
+  require 'active_support/testing/stream'
+  include ActiveSupport::Testing::Stream
+
   it "abort_if_pending_migrations_with_group_with_migrations" do
     assert_raises(SystemExit, "did not abort") do
       silence_stream($stdout) do
