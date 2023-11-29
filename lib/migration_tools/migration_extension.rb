@@ -1,11 +1,10 @@
 module MigrationTools
   module MigrationExtension
-
     attr_accessor :migration_group
 
     def group(arg = nil)
       unless MigrationTools::MIGRATION_GROUPS.member?(arg.to_s)
-        raise "Invalid group \"#{arg.to_s}\" - valid groups are #{MigrationTools::MIGRATION_GROUPS.inspect}"
+        raise "Invalid group \"#{arg}\" - valid groups are #{MigrationTools::MIGRATION_GROUPS.inspect}"
       end
 
       self.migration_group = arg.to_s
@@ -31,4 +30,4 @@ ActiveRecord::Migration.class_eval do
     self.class.migration_group
   end
 end
-ActiveRecord::MigrationProxy.delegate :migration_group, :to => :migration
+ActiveRecord::MigrationProxy.delegate :migration_group, to: :migration

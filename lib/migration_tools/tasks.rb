@@ -1,5 +1,5 @@
-require 'rake'
-require 'rake/tasklib'
+require "rake"
+require "rake/tasklib"
 
 module MigrationTools
   class Tasks < ::Rake::TaskLib
@@ -12,7 +12,7 @@ module MigrationTools
     def group
       return @group if defined?(@group) && @group
 
-      @group = ENV['GROUP'].to_s
+      @group = ENV["GROUP"].to_s
       raise "Invalid group \"#{@group}\"" if !@group.empty? && !MIGRATION_GROUPS.member?(@group)
       @group
     end
@@ -20,7 +20,7 @@ module MigrationTools
     def group=(group)
       @group = nil
       @pending_migrations = nil
-      ENV['GROUP'] = group
+      ENV["GROUP"] = group
     end
 
     def migrations_paths
@@ -46,8 +46,7 @@ module MigrationTools
         ActiveRecord::Migrator.new(:up, migrations,
           ActiveRecord::Base.connection.schema_migration,
           ActiveRecord::Base.connection.internal_metadata,
-          target_version
-        )
+          target_version)
       else
         ActiveRecord::Migrator.new(:up, migrations, ActiveRecord::SchemaMigration, target_version)
       end
@@ -64,14 +63,14 @@ module MigrationTools
     def define_migrate_list
       namespace :db do
         namespace :migrate do
-          desc 'Lists pending migrations'
-          task :list => :environment do
+          desc "Lists pending migrations"
+          task list: :environment do
             if pending_migrations.empty?
               notify "Your database schema is up to date", group
             else
               notify "You have #{pending_migrations.size} pending migrations", group
               pending_migrations.each do |migration|
-                notify '  %4d %s %s' % [ migration.version, migration.migration_group.to_s[0..5].center(6), migration.name ]
+                notify "  %4d %s %s" % [migration.version, migration.migration_group.to_s[0..5].center(6), migration.name]
               end
             end
           end
@@ -82,8 +81,8 @@ module MigrationTools
     def define_migrate_group
       namespace :db do
         namespace :migrate do
-          desc 'Runs pending migrations for a given group'
-          task :group => :environment do
+          desc "Runs pending migrations for a given group"
+          task group: :environment do
             if group.empty?
               notify "Please specify a migration group"
             elsif pending_migrations.empty?
@@ -94,10 +93,10 @@ module MigrationTools
               end
 
               schema_format = if ActiveRecord::VERSION::MAJOR >= 7
-                                ActiveRecord.schema_format
-                              else
-                                ActiveRecord::Base.schema_format
-                              end
+                ActiveRecord.schema_format
+              else
+                ActiveRecord::Base.schema_format
+              end
 
               Rake::Task["db:schema:dump"].invoke if schema_format == :ruby
               Rake::Task["db:structure:dump"].invoke if schema_format == :sql
@@ -110,10 +109,10 @@ module MigrationTools
     def define_convenience_tasks
       namespace :db do
         namespace :migrate do
-          [ :list, :group ].each do |ns|
+          [:list, :group].each do |ns|
             namespace ns do
               MigrationTools::MIGRATION_GROUPS.each do |migration_group|
-                desc "#{ns == :list ? 'Lists' : 'Executes' } the migrations for group #{migration_group}"
+                desc "#{(ns == :list) ? "Lists" : "Executes"} the migrations for group #{migration_group}"
                 task migration_group => :environment do
                   self.group = migration_group.to_s
                   Rake::Task["db:migrate:#{ns}"].invoke
@@ -144,7 +143,7 @@ module MigrationTools
       if group.empty?
         puts string
       else
-        puts string + " for group \""+group+"\""
+        puts "#{string} for group \"#{group}\""
       end
     end
   end
