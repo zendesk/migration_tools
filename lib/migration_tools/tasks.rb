@@ -28,10 +28,15 @@ module MigrationTools
     end
 
     def migrator(target_version = nil)
-      if ActiveRecord::VERSION::MAJOR >= 7 && ActiveRecord::VERSION::MINOR >= 1
+      if ActiveRecord::VERSION::MAJOR == 7 && ActiveRecord::VERSION::MINOR == 1
         migrate_up(ActiveRecord::MigrationContext.new(
           migrations_paths,
           ActiveRecord::Base.connection.schema_migration
+        ).migrations, target_version)
+      elsif ActiveRecord.gem_version >= Gem::Version.new("7.2")
+        migrate_up(ActiveRecord::MigrationContext.new(
+          migrations_paths,
+          ActiveRecord::Base.connection_pool.schema_migration
         ).migrations, target_version)
       else
         migrate_up(ActiveRecord::MigrationContext.new(
@@ -42,10 +47,15 @@ module MigrationTools
     end
 
     def migrate_up(migrations, target_version)
-      if ActiveRecord::VERSION::MAJOR >= 7 && ActiveRecord::VERSION::MINOR >= 1
+      if ActiveRecord::VERSION::MAJOR == 7 && ActiveRecord::VERSION::MINOR == 1
         ActiveRecord::Migrator.new(:up, migrations,
           ActiveRecord::Base.connection.schema_migration,
           ActiveRecord::Base.connection.internal_metadata,
+          target_version)
+      elsif ActiveRecord.gem_version >= Gem::Version.new("7.2")
+        ActiveRecord::Migrator.new(:up, migrations,
+          ActiveRecord::Base.connection_pool.schema_migration,
+          ActiveRecord::Base.connection_pool.internal_metadata,
           target_version)
       else
         ActiveRecord::Migrator.new(:up, migrations, ActiveRecord::SchemaMigration, target_version)
