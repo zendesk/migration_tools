@@ -9,7 +9,7 @@ Gem::Specification.new "migration_tools", "1.9.0" do |s|
 
   s.required_ruby_version = ">= 2.7.0"
 
-  s.add_runtime_dependency "activerecord", ">= 6.0.0", "< 7.2"
+  s.add_runtime_dependency "activerecord", ">= 6.0.0"
 
   s.add_development_dependency "rake"
   s.add_development_dependency "bump"
