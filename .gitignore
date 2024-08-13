@@ -19,3 +19,4 @@ pkg
 mkmf.log
 .bundle/config
 .bundle/environment.rb
+/gemfiles/rails_main.gemfile.lock

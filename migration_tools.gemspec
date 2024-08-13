@@ -1,4 +1,4 @@
-Gem::Specification.new "migration_tools", "1.9.0" do |s|
+Gem::Specification.new "migration_tools", "1.10.0" do |s|
   s.description = "Rake tasks for Rails that add groups to migrations"
   s.summary = "Encourage migrations that do not require downtime"
   s.homepage = "https://github.com/zendesk/migration_tools"
@@ -9,7 +9,7 @@ Gem::Specification.new "migration_tools", "1.9.0" do |s|
 
   s.required_ruby_version = ">= 2.7.0"
 
-  s.add_runtime_dependency "activerecord", ">= 6.0.0", "< 7.2"
+  s.add_runtime_dependency "activerecord", ">= 6.0.0"
 
   s.add_development_dependency "rake"
   s.add_development_dependency "bump"
