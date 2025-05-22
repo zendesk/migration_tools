@@ -1,4 +1,6 @@
-Gem::Specification.new "migration_tools", "1.10.0" do |s|
+require_relative "lib/migration_tools/version"
+
+Gem::Specification.new "migration_tools", MigrationTools::VERSION do |s|
   s.description = "Rake tasks for Rails that add groups to migrations"
   s.summary = "Encourage migrations that do not require downtime"
   s.homepage = "https://github.com/zendesk/migration_tools"
