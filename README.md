@@ -30,7 +30,6 @@ The names of the possible groups are predefined to avoid turning this solution i
 
 *change* this is a special group that you run whenever you want to change DB data which you'd otherwise do in script/console
 
-
 ## Commands
 
 The list commands
@@ -53,6 +52,21 @@ The group commands
   $ rake db:migrate:group:change - runs pending migrations for the change group
 ```
 Note that rake db:migrate is entirely unaffected by this.
+
+### Releasing a new version
+A new version is published to RubyGems.org every time a change to `version.rb` is pushed to the `main` branch.
+In short, follow these steps:
+1. Update `version.rb`,
+2. update version in all `Gemfile.lock` files,
+3. merge this change into `main`, and
+4. look at [the action](https://github.com/zendesk/migration_tools/actions/workflows/publish.yml) for output.
+
+To create a pre-release from a non-main branch:
+1. change the version in `version.rb` to something like `1.2.0.pre.1` or `2.0.0.beta.2`,
+2. push this change to your branch,
+3. go to [Actions → “Publish to RubyGems.org” on GitHub](https://github.com/zendesk/migration_tools/actions/workflows/publish.yml),
+4. click the “Run workflow” button,
+5. pick your branch from a dropdown.
 
 ## License
 
